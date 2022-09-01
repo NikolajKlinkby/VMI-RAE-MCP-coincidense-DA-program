@@ -13,7 +13,7 @@ from threading import Thread
 import traceback
 from inspect import signature
 from inspect import getfullargspec
-from FittingRoutine import FittingRoutine
+from Source.FittingRoutine import FittingRoutine
 
 import ROOT
 import matplotlib.pyplot as plt
@@ -73,7 +73,6 @@ def VMI_filter(VMI_filter_exe_path, root_file_path, args):
     call = VMI_filter_exe_path.replace(" ", "\\ ") + "/build/./Main" + " " + root_file_path.replace(" ", "\\ ") + " "
     for arg in args:
         call += arg
-    print(call)
     os.system(call)
 
 
@@ -241,27 +240,28 @@ class ControlWindow(tk.Tk):
         '''             Initial window            '''
         # Initial attempt to set paths
         self.home_dir = os.path.expanduser('~')
-        self.dat_file_path = self.home_dir
-        if os.path.exists(self.home_dir + '/Documents/Weizmann/Data Analysis/Load data/build/./Main'):
-            self.load_file_path = self.home_dir + '/Documents/Weizmann/Data Analysis/Load data'
+        self.current_dir = os.path.dirname(os.path.abspath(__file__))
+        self.dat_file_path = self.current_dir
+        if os.path.exists(self.current_dir + '/Source/Load data/build/./Main'):
+            self.load_file_path = self.current_dir + '/Source/Load data'
         else:
-            self.load_file_path = self.home_dir
-        if os.path.exists(self.home_dir + '/Documents/Weizmann/Data Analysis/Event Trig data/build/./Main'):
-            self.event_file_path = self.home_dir + '/Documents/Weizmann/Data Analysis/Event Trig data'
+            self.load_file_path = self.current_dir
+        if os.path.exists(self.current_dir + '/Source/Event Trig data/build/./Main'):
+            self.event_file_path = self.current_dir + '/Source/Event Trig data'
         else:
-            self.event_file_path = self.home_dir
-        if os.path.exists(self.home_dir + '/Documents/Weizmann/Data Analysis/VMI filter'):
-            self.vmi_file_path = self.home_dir + '/Documents/Weizmann/Data Analysis/VMI filter'
+            self.event_file_path = self.current_dir
+        if os.path.exists(self.current_dir + '/Source/VMI filter'):
+            self.vmi_file_path = self.current_dir + '/Source/VMI filter'
         else:
-            self.vmi_file_path = self.home_dir
-        if os.path.exists(self.home_dir + '/Documents/Weizmann/Data Analysis/VMI GIF'):
-            self.gif_file_path = self.home_dir + '/Documents/Weizmann/Data Analysis/VMI GIF'
+            self.vmi_file_path = self.current_dir
+        if os.path.exists(self.current_dir + '/Source/VMI GIF'):
+            self.gif_file_path = self.current_dir + '/Source/VMI GIF'
         else:
-            self.boot_file_path = self.home_dir
-        if os.path.exists(self.home_dir + '/Documents/Weizmann/Data Analysis/VMI Boot'):
-            self.boot_file_path = self.home_dir + '/Documents/Weizmann/Data Analysis/VMI Boot'
+            self.boot_file_path = self.current_dir
+        if os.path.exists(self.current_dir + '/Source/VMI Boot'):
+            self.boot_file_path = self.current_dir + '/Source/VMI Boot'
         else:
-            self.boot_file_path = self.home_dir
+            self.boot_file_path = self.current_dir
 
         # This code lets you set the needed directories
         self.withdraw()
@@ -4795,8 +4795,6 @@ class SaveDataPopup(tk.Toplevel):
                                 f'{radial_err[fr][i]}' + delim + f'{rad_val_err[i]}')
                     f.write('\n')
                 f.close()
-
-
 
 
 class PeakSettings(tk.Toplevel):

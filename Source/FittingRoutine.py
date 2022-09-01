@@ -259,7 +259,7 @@ class FittingRoutine:
     Examples
     --------
     >>> import numpy as np
-    >>> from FittingRoutine import FittingRoutine
+    >>> from Source.FittingRoutine import FittingRoutine
     >>> def func(x, a, b):
     ...     return a/np.sqrt(2*np.pi) * np.exp(- x**2/2) + b
     >>> def func_deriv(x, a, b):
