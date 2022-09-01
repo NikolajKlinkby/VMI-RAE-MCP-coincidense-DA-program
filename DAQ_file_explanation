@@ -1,0 +1,15 @@
+non coin count: 835                                         ///EIBT-MCP total events of injection
+injection #:1                                               ///Injection number
+chirp on/off: 0                                             ///???
+Frequency (THz): 445.230378    Power (a.u): 0.899326        ///Frequency and power of LASER
+Shutter status: 1                                           ///True means laser on, False means laser off
+DATA:                                                       ///
+/  x (mm)    y (mm)     Trig. time  Event time    Peak sum  ///Time in seconds
+0.551275759	0.531143608	0.000007125	0.005439224	562.384000000
+
+
+/// (x,y) defines the position of a coinciding event on the VMI with the EIBT-MCP.
+/// Trigger time is the time after the coincidence was triggered to the peak of the VMI signal
+/// Event time is the time after DAQ start until EIBT-MCP hit.
+/// Peak sum is the sum of VMI peak signals.
+
