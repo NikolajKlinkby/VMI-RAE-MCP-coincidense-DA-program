@@ -9,16 +9,20 @@ The program is currently only available for Linux.
 ### Dependacies
 
 In order to install the program following dependencies must be satisfied:
+
 [Cmake](https://cmake.org/download/)
+
 [ROOT](https://root.cern/install/)
+
 [Python3](https://www.python.org/downloads/)
-Latex (any will do)J
+
+Latex (any will do)
 
 ROOT must be compiled with C++17.
 
-One liner for Cmake, Python3, and Latex
+One liner for Cmake, Python3, Latex and ROOT dependancies
 ```bash
-sudo apt -y install python3 build-essential libssl-dev cmake texmaker
+sudo apt-get -y install python3 build-essential libssl-dev cmake texmaker dpkg-dev g++ gcc binutils libx11-dev libxpm-dev libxft-dev libxext-dev
 ```
 
 ROOT can be installed in various ways. The following is an example, building it from source, setting C++17 as standard.
