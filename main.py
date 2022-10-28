@@ -1331,7 +1331,7 @@ class ControlWindow(tk.Tk):
         self.peak_sum_bin_size = settings_bins[2]
         self.freq_bin_size = settings_bins[3]
 
-        self.background_sub_mode = [settings_mode[0], settings_mode[1]]
+        self.background_sub_mode = [settings_mode[0], settings_mode[1], -1, -1]
         self.event_background_lower = settings_mode[2]
         self.event_background_upper = settings_mode[3]
 
@@ -1646,8 +1646,8 @@ class ControlWindow(tk.Tk):
         self.event_ax.axvline(float(self.event_lower), ls='--', color="b", lw=0.5)
         self.event_ax.axvline(float(self.event_upper), ls='--', color="b", lw=0.5)
         if self.background_sub_mode[1] == 1:
-            self.event_ax.axvline(self.event_background_lower, ls='--', color="k", lw=0.5)
-            self.event_ax.axvline(self.event_background_upper, ls='--', color="k", lw=0.5)
+            self.event_ax.axvline(float(self.event_background_lower), ls='--', color="k", lw=0.5)
+            self.event_ax.axvline(float(self.event_background_upper), ls='--', color="k", lw=0.5)
         self.event_ax.errorbar(self.event_time_bins, self.event_hist, self.event_hist_err,
                                fmt='ro-', capsize=2, ms=2, lw=1,
                                errorevery=3, elinewidth=0.5, label='Total')
@@ -3305,15 +3305,15 @@ class ControlWindow(tk.Tk):
                 p0 = np.array(
                     [[float(i.get()), float(j.get())] for i, j in zip(self.laser_param_lower, self.laser_param_upper)])
                 self.laser_fit = FittingRoutine(self.laser_fit_function['f'], np.array(self.freq_bins),
-                                                np.array(self.freq_hist), error_y=self.freq_hist_err, P0=p0,
+                                                np.array(self.freq_hist), error_y=np.array(self.freq_hist_err), P0=p0,
                                                 method=self.laser_method.get(),
                                                 jac=self.laser_fit_function['jac'],
                                                 hess=self.laser_fit_function['hess'], mask=mask)
             else:
                 # Call fit
-                p0 = np.array([float(i.get()) for i in self.param_init])
+                p0 = np.array([float(i.get()) for i in self.laser_param_init])
                 self.laser_fit = FittingRoutine(self.laser_fit_function['f'], np.array(self.freq_bins),
-                                                np.array(self.freq_hist), error_y=self.freq_hist_err, P0=p0,
+                                                np.array(self.freq_hist), error_y=np.array(self.freq_hist_err), P0=p0,
                                                 method=self.laser_method.get(),
                                                 jac=self.laser_fit_function['jac'],
                                                 hess=self.laser_fit_function['hess'], mask=mask)
@@ -5125,11 +5125,13 @@ class GeneralSettings(tk.Toplevel):
         self.root.update_vmi()
 
     def use_window(self):
-        if self.use_background_window.get == 'Not in use':
+        if self.use_background_window.get() == 'Not in use':
             self.use_background_window.set('In use')
             self.root.background_sub_mode[1] = 1
             self.root.background_sub_mode[2] = float(self.event_time_lower_var.get())
+            self.root.event_background_lower = self.event_time_lower_var.get()
             self.root.background_sub_mode[3] = float(self.event_time_upper_var.get())
+            self.root.event_background_upper = self.event_time_upper_var.get()
             if self.root.circularize and len(self.root.circ_import_file) != 0:
                 VMI_filter(self.root.vmi_file_path, self.root.root_file,
                            ['-C' + self.root.circ_import_file + ' -s' + self.event_time_lower_var.get() +
