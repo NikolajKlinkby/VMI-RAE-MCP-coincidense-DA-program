@@ -4659,20 +4659,20 @@ class SaveDataPopup(tk.Toplevel):
 
                 #Setting up data structures
 
-                circ_image = np.zeros((nr_frames, vmi_resolution, vmi_resolution))
-                inv_image = np.zeros((nr_frames, vmi_resolution, vmi_resolution))
-                image_val = np.zeros((nr_frames, vmi_resolution, vmi_resolution))
-                image_off_val = np.zeros((nr_frames, vmi_resolution, vmi_resolution))
-                intensity = np.zeros((nr_frames, resolution))
-                intensity_err = np.zeros((nr_frames, resolution))
-                radial_tot = np.zeros((nr_frames, resolution))
-                radial_err = np.zeros((nr_frames, resolution))
-                radial = np.zeros((nr_frames, resolution))
-                rad_val_err = np.ones(resolution) * self.root.sys_radial_err
-                rad_val_err_stat = np.ones((nr_frames,resolution))
+                circ_image = np.zeros((nr_frames, int(vmi_resolution), int(vmi_resolution)))
+                inv_image = np.zeros((nr_frames, int(vmi_resolution), int(vmi_resolution)))
+                image_val = np.zeros((nr_frames, int(vmi_resolution), int(vmi_resolution)))
+                image_off_val = np.zeros((nr_frames, int(vmi_resolution), int(vmi_resolution)))
+                intensity = np.zeros((nr_frames, int(resolution)))
+                intensity_err = np.zeros((nr_frames, int(resolution)))
+                radial_tot = np.zeros((nr_frames, int(resolution)))
+                radial_err = np.zeros((nr_frames, int(resolution)))
+                radial = np.zeros((nr_frames, int(resolution)))
+                rad_val_err = np.ones(resolution) * float(self.root.sys_radial_err)
+                rad_val_err_stat = np.ones((nr_frames,int(resolution)))
                 if boot:
-                    I_err_l = np.zeros((nr_frames, resolution))
-                    I_err_u = np.zeros((nr_frames, resolution))
+                    I_err_l = np.zeros((nr_frames, int(resolution)))
+                    I_err_u = np.zeros((nr_frames, int(resolution)))
 
                 frame_nr = 0
 
@@ -4774,25 +4774,40 @@ class SaveDataPopup(tk.Toplevel):
 
                 f = open(save_file + '_gif_abel_inverse' + extension, "a")
                 for fr in range(nr_frames):
-                    f.write(f'{fr} '+ 'radius(mm)' + delim + f'{fr} '+'intensity' + delim + f'{fr} '+'intensity error lower' + f'{fr} '+'intensity error upper' +
-                    delim + f'{fr} '+'radius error')
+                    f.write(f'{fr} '+ '_radius(mm)' + delim + f'{fr} '+'_intensity' + delim + f'{fr} '+'_intensity error lower' + delim + f'{fr} '+'intensity error upper' +
+                    delim + f'{fr} '+'_radius error')
                 f.write('\n')
                 for i in range(resolution):
-                    for fr in range(nr_frames):
-                        f.write(f'{radial[fr][i]}' + delim + f'{intensity[fr][i]}' + delim +
+                    for fr in range(nr_frames-1):
+                        if boot:
+                            f.write(f'{radial[fr][i]}' + delim + f'{intensity[fr][i]}' + delim +
                                 f'{I_err_l[fr][i]}' + delim + f'{I_err_u[fr][i]}' + delim +
-                                f'{rad_val_err_stat[fr][i]}')
+                                f'{rad_val_err_stat[fr][i]}'+delim)
+                        else:
+                            f.write(f'{radial[fr][i]}' + delim + f'{intensity[fr][i]}' + delim +
+                                f'{0}' + delim + f'{0}' + delim +
+                                f'{rad_val_err_stat[fr][i]}'+delim)
+                    if boot:
+                        f.write(f'{radial[nr_frames-1][i]}' + delim + f'{intensity[nr_frames-1][i]}' + delim +
+                            f'{I_err_l[nr_frames-1][i]}' + delim + f'{I_err_u[nr_frames-1][i]}' + delim +
+                            f'{rad_val_err_stat[nr_frames-1][i]}')
+                    else:
+                        f.write(f'{radial[nr_frames-1][i]}' + delim + f'{intensity[nr_frames-1][i]}' + delim +
+                            f'{0}' + delim + f'{0}' + delim +
+                            f'{rad_val_err_stat[nr_frames-1][i]}')
                     f.write('\n')
                 f.close()
 
                 f = open(save_file + '_gif_radial' + extension, "a")
                 for fr in range(nr_frames):
-                    f.write(f'{fr} '+ 'radius(mm)' + delim + f'{fr} '+'integrated val' + delim + f'{fr} '+'integrated error' + f'{fr} '+'radius error')
+                    f.write(f'{fr} '+ '_radius(mm)' + delim + f'{fr} '+'_integrated val' + delim + f'{fr} '+'_integrated error' + f'{fr} '+'_radius error'+delim)
                 f.write('\n')
                 for i in range(resolution):
-                    for fr in range(nr_frames):
+                    for fr in range(nr_frames-1):
                         f.write(f'{radial[fr][i]}' + delim + f'{radial_tot[fr][i]}' + delim +
-                                f'{radial_err[fr][i]}' + delim + f'{rad_val_err[i]}')
+                                f'{radial_err[fr][i]}' + delim + f'{rad_val_err[i]}'+delim)
+                    f.write(f'{radial[nr_frames-1][i]}' + delim + f'{radial_tot[nr_frames-1][i]}' + delim +
+                            f'{radial_err[nr_frames-1][i]}' + delim + f'{rad_val_err[i]}')
                     f.write('\n')
                 f.close()
 
