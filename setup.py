@@ -55,8 +55,8 @@ else:
     install_packages(dependencies)
 
 # CMake required
-if version.parse(get_cmake_version()) < version.parse("3.15.0"):
-    raise SystemExit('Cmake version 3.15.0 or newer is required!')
+#if version.parse(get_cmake_version()) < version.parse("3.15.0"):
+#    raise SystemExit('Cmake version 3.15.0 or newer is required!')
 
 # Required path for root.cmake
 import tkinter as tk

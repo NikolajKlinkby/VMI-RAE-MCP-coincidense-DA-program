@@ -1291,7 +1291,7 @@ class ControlWindow(tk.Tk):
         settings_bin_data = root_file.Get("SETTINGS_BINS")
         settings_mode_data = root_file.Get("SETTINGS_MODE")
         center_data = root_file.Get("CENTER")
-
+        
         self.center_vals = []
         for entry in center_data:
             self.center_vals.append(entry.center)
@@ -1805,7 +1805,7 @@ class ControlWindow(tk.Tk):
             self.boot_intensity_ax.clear()
 
             self.boot_intensity_ax.axhline(0, color='k', lw=0.5)
-            self.boot_intensity_ax.errorbar(self.boot_radial, self.boot_intensity, self.quantiles, self.boot_rad_err,
+            self.boot_intensity_ax.errorbar(self.boot_radial, self.boot_intensity, np.abs(self.quantiles), self.boot_rad_err,
                                             fmt='ro', ms=1, lw=0.5, capsize=1.2,
                                             errorevery=1, elinewidth=0.25)
 

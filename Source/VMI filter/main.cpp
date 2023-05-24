@@ -1272,7 +1272,6 @@ int main(int argc, char *argv[]){
         /*--------          Iteration on raw data           --------*/
         {
             /*--------            Finding center             --------*/
-
             //Binning x and y-axis
             for (int i = 0; i < entries; i++) {
                 X_branch->GetEntry(tree->LoadTree(i));
@@ -1346,7 +1345,7 @@ int main(int argc, char *argv[]){
             for (int i = 0; i < nr_angular_bins; i++) {
                 angular_bin_val.at(i) = i * 2*M_PI / (nr_angular_bins-1) - M_PI;
             }
-
+            
             if (circularise) {
                 if (circularise_imported) {
                     import_radial_corrections(nr_angular_bins, rad_corrections, circularise_import);
@@ -1953,6 +1952,13 @@ int main(int argc, char *argv[]){
                                                                             hold_y);
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_on.at(index) += 1;
 
                                             //Add to circularised VMI image
@@ -1962,6 +1968,13 @@ int main(int argc, char *argv[]){
                                                                        hold_y * rad_corrections.at(ang_index));
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_circ.at(index) += 1;
 
                                             //Find index correction for integral
@@ -2057,6 +2070,13 @@ int main(int argc, char *argv[]){
                                                                             hold_y);
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_on.at(index) += 1;
                                         }
                                     }
@@ -2097,6 +2117,13 @@ int main(int argc, char *argv[]){
                                                                             hold_y);
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_off.at(index) += 1;
 
                                             //Add to circularised VMI image
@@ -2106,6 +2133,13 @@ int main(int argc, char *argv[]){
                                                                        hold_y * rad_corrections.at(ang_index));
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_circ.at(index) -= 1;
 
                                             //Find index correction for integral
@@ -2201,6 +2235,13 @@ int main(int argc, char *argv[]){
                                                                             hold_y);
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_off.at(index) += 1;
                                         }
                                     }
@@ -2269,6 +2310,13 @@ int main(int argc, char *argv[]){
                                                                             hold_y);
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_on.at(index) += 1;
 
                                             //Add to circularised VMI image
@@ -2278,6 +2326,13 @@ int main(int argc, char *argv[]){
                                                                        hold_y * rad_corrections.at(ang_index));
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_circ.at(index) += 1;
 
                                             //Find index correction for integral
@@ -2373,6 +2428,13 @@ int main(int argc, char *argv[]){
                                                                             hold_y);
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_on.at(index) += 1;
                                         }
                                     }
@@ -2409,6 +2471,13 @@ int main(int argc, char *argv[]){
                                                                             hold_y);
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_on.at(index) -= 1;
 
                                             //Add to circularised VMI image
@@ -2418,6 +2487,13 @@ int main(int argc, char *argv[]){
                                                                        hold_y * rad_corrections.at(ang_index));
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_circ.at(index) -= 1;
 
                                             //Find index correction for integral
@@ -2513,6 +2589,13 @@ int main(int argc, char *argv[]){
                                                                             hold_y);
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_on.at(index) -= 1;
                                         }
                                     }
@@ -2554,6 +2637,13 @@ int main(int argc, char *argv[]){
                                                                             hold_y);
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_off.at(index) += 1;
 
                                             //Add to circularised VMI image
@@ -2563,6 +2653,13 @@ int main(int argc, char *argv[]){
                                                                        hold_y * rad_corrections.at(ang_index));
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_circ.at(index) -= 1;
 
                                             //Find index correction for integral
@@ -2658,6 +2755,13 @@ int main(int argc, char *argv[]){
                                                                             hold_y);
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_off.at(index) += 1;
                                         }
                                     }
@@ -2694,6 +2798,13 @@ int main(int argc, char *argv[]){
                                                                             hold_y);
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_off.at(index) -= 1;
 
                                             //Add to circularised VMI image
@@ -2703,6 +2814,13 @@ int main(int argc, char *argv[]){
                                                                        hold_y * rad_corrections.at(ang_index));
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_circ.at(index) += 1;
 
                                             //Find index correction for integral
@@ -2798,6 +2916,13 @@ int main(int argc, char *argv[]){
                                                                             hold_y);
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_off.at(index) -= 1;
                                         }
                                     }
@@ -2872,6 +2997,13 @@ int main(int argc, char *argv[]){
                                                                             hold_y);
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_off.at(index) += 1;
 
                                             //Add to circularised VMI image
@@ -2881,6 +3013,13 @@ int main(int argc, char *argv[]){
                                                                        hold_y * rad_corrections.at(ang_index));
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_circ.at(index) += 1;
 
                                             //Find index correction for integral
@@ -2976,6 +3115,13 @@ int main(int argc, char *argv[]){
                                                                             hold_y);
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_off.at(index) += 1;
                                         }
                                     }
@@ -3041,6 +3187,13 @@ int main(int argc, char *argv[]){
                                                                             hold_y);
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_off.at(index) += 1;
 
                                             //Add to circularised VMI image
@@ -3145,6 +3298,13 @@ int main(int argc, char *argv[]){
                                                                             hold_y);
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_off.at(index) += 1;
                                         }
                                     }
@@ -3180,6 +3340,13 @@ int main(int argc, char *argv[]){
                                                                             hold_y);
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_off.at(index) -= 1;
 
                                             //Add to circularised VMI image
@@ -3189,6 +3356,13 @@ int main(int argc, char *argv[]){
                                                                        hold_y * rad_corrections.at(ang_index));
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_circ.at(index) -= 1;
 
                                             //Find index correction for integral
@@ -3284,6 +3458,13 @@ int main(int argc, char *argv[]){
                                                                             hold_y);
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_off.at(index) -= 1;
                                         }
                                     }
@@ -4394,6 +4575,13 @@ int main(int argc, char *argv[]){
                                                                             hold_y);
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_on.at(index) += 1;
 
                                             //Add to circularised VMI image
@@ -4403,6 +4591,13 @@ int main(int argc, char *argv[]){
                                                                        hold_y * rad_corrections.at(ang_index));
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_circ.at(index) += 1;
                                         }
 
@@ -4421,6 +4616,13 @@ int main(int argc, char *argv[]){
                                                                             hold_y);
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_on.at(index) += 1;
                                         }
                                     }
@@ -4461,6 +4663,13 @@ int main(int argc, char *argv[]){
                                                                             hold_y);
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_off.at(index) += 1;
 
                                             //Add to circularised VMI image
@@ -4470,6 +4679,13 @@ int main(int argc, char *argv[]){
                                                                        hold_y * rad_corrections.at(ang_index));
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_circ.at(index) -= 1;
                                         }
 
@@ -4487,6 +4703,13 @@ int main(int argc, char *argv[]){
                                                                             hold_y);
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_off.at(index) += 1;
                                         }
                                     }
@@ -4541,6 +4764,13 @@ int main(int argc, char *argv[]){
                                                                             hold_y);
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_on.at(index) += 1;
 
                                             //Add to circularised VMI image
@@ -4550,6 +4780,13 @@ int main(int argc, char *argv[]){
                                                                        hold_y * rad_corrections.at(ang_index));
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_circ.at(index) += 1;
                                         }
 
@@ -4568,6 +4805,13 @@ int main(int argc, char *argv[]){
                                                                             hold_y);
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_on.at(index) += 1;
                                         }
                                     }
@@ -4603,6 +4847,13 @@ int main(int argc, char *argv[]){
                                                                             hold_y);
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_on.at(index) -= 1;
 
                                             //Add to circularised VMI image
@@ -4612,6 +4863,13 @@ int main(int argc, char *argv[]){
                                                                        hold_y * rad_corrections.at(ang_index));
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_circ.at(index) -= 1;
                                         }
 
@@ -4630,6 +4888,13 @@ int main(int argc, char *argv[]){
                                                                             hold_y);
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_on.at(index) -= 1;
                                         }
                                     }
@@ -4670,6 +4935,13 @@ int main(int argc, char *argv[]){
                                                                             hold_y);
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_off.at(index) += 1;
 
                                             //Add to circularised VMI image
@@ -4679,6 +4951,13 @@ int main(int argc, char *argv[]){
                                                                        hold_y * rad_corrections.at(ang_index));
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_circ.at(index) -= 1;
                                         }
 
@@ -4696,6 +4975,13 @@ int main(int argc, char *argv[]){
                                                                             hold_y);
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_off.at(index) += 1;
                                         }
                                     }
@@ -4731,6 +5017,13 @@ int main(int argc, char *argv[]){
                                                                             hold_y);
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_off.at(index) -= 1;
 
                                             //Add to circularised VMI image
@@ -4740,6 +5033,13 @@ int main(int argc, char *argv[]){
                                                                        hold_y * rad_corrections.at(ang_index));
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_circ.at(index) += 1;
                                         }
 
@@ -4756,6 +5056,13 @@ int main(int argc, char *argv[]){
                                                                             hold_y);
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_off.at(index) -= 1;
                                         }
                                     }
@@ -4812,6 +5119,13 @@ int main(int argc, char *argv[]){
                                                                             hold_y);
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_off.at(index) += 1;
 
                                             //Add to circularised VMI image
@@ -4821,6 +5135,13 @@ int main(int argc, char *argv[]){
                                                                        hold_y * rad_corrections.at(ang_index));
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_circ.at(index) += 1;
                                         }
 
@@ -4837,6 +5158,13 @@ int main(int argc, char *argv[]){
                                                                             hold_y);
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_off.at(index) += 1;
                                         }
                                     }
@@ -4891,6 +5219,13 @@ int main(int argc, char *argv[]){
                                                                             hold_y);
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_off.at(index) += 1;
 
                                             //Add to circularised VMI image
@@ -4900,6 +5235,13 @@ int main(int argc, char *argv[]){
                                                                        hold_y * rad_corrections.at(ang_index));
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_circ.at(index) += 1;
                                         }
 
@@ -4916,6 +5258,13 @@ int main(int argc, char *argv[]){
                                                                             hold_y);
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_off.at(index) += 1;
                                         }
                                     }
@@ -4951,6 +5300,13 @@ int main(int argc, char *argv[]){
                                                                             hold_y);
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_off.at(index) -= 1;
 
                                             //Add to circularised VMI image
@@ -4960,6 +5316,13 @@ int main(int argc, char *argv[]){
                                                                        hold_y * rad_corrections.at(ang_index));
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_circ.at(index) -= 1;
                                         }
 
@@ -4976,6 +5339,13 @@ int main(int argc, char *argv[]){
                                                                             hold_y);
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_off.at(index) -= 1;
                                         }
                                     }
@@ -6090,6 +6460,13 @@ int main(int argc, char *argv[]){
                                                                        hold_y * rad_corrections.at(ang_index));
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_circ.at(index) += 1;
 
                                             //Find index correction for integral
@@ -6216,6 +6593,13 @@ int main(int argc, char *argv[]){
                                                                        hold_y * rad_corrections.at(ang_index));
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_circ.at(index) -= 1;
 
                                             //Find index correction for integral
@@ -6370,6 +6754,13 @@ int main(int argc, char *argv[]){
                                                                        hold_y * rad_corrections.at(ang_index));
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_circ.at(index) += 1;
 
                                             //Find index correction for integral
@@ -6492,6 +6883,13 @@ int main(int argc, char *argv[]){
                                                                        hold_y * rad_corrections.at(ang_index));
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_circ.at(index) -= 1;
 
                                             //Find index correction for integral
@@ -6619,6 +7017,13 @@ int main(int argc, char *argv[]){
                                                                        hold_y * rad_corrections.at(ang_index));
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_circ.at(index) -= 1;
 
                                             //Find index correction for integral
@@ -6741,6 +7146,13 @@ int main(int argc, char *argv[]){
                                                                        hold_y * rad_corrections.at(ang_index));
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_circ.at(index) += 1;
 
                                             //Find index correction for integral
@@ -6901,6 +7313,13 @@ int main(int argc, char *argv[]){
                                                                        hold_y * rad_corrections.at(ang_index));
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_circ.at(index) += 1;
 
                                             //Find index correction for integral
@@ -7052,6 +7471,13 @@ int main(int argc, char *argv[]){
                                                                        hold_y * rad_corrections.at(ang_index));
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_circ.at(index) += 1;
 
                                             //Find index correction for integral
@@ -7173,6 +7599,13 @@ int main(int argc, char *argv[]){
                                                                        hold_y * rad_corrections.at(ang_index));
                                             index = (int) std::distance(VMI_bin_y.begin(), lower_y) * VMI_res +
                                                     (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            if ((int) std::distance(VMI_bin_x.begin(), lower_x) >= VMI_res){
+                                                index -= 1;
+                                            }
+                                            if ((int) std::distance(VMI_bin_y.begin(), lower_y)){
+                                                index = ((int) std::distance(VMI_bin_y.begin(), lower_y)-1) * VMI_res +
+                                                    (int) std::distance(VMI_bin_x.begin(), lower_x);
+                                            }
                                             VMI_circ.at(index) -= 1;
 
                                             //Find index correction for integral
