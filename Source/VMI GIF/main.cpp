@@ -498,38 +498,150 @@ void get_intensity_err(int order, int resolution, std::vector<double> & vector, 
     }
 }
 
-void get_center_convolution(std::vector<int> & x_axis, std::vector<int> & y_axis, int & x_center, int & y_center) {
+void get_center_average(TTree * tree, int & entries,
+                        double & x_center, double & y_center, double & center_error, double & x_y_variance, 
+                        double & trig_time_upper, double & trig_time_lower,
+                        double & event_time_upper, double & event_time_lower,
+                        double & peak_sum_upper, double & peak_sum_lower,
+                        std::vector<Double_t> * X, std::vector<Double_t> * Y,
+                        std::vector<Double_t> *trig_time,
+                        std::vector<Double_t> *event_time,
+                        std::vector<Double_t> *peak_sum,
+                        TBranch *X_branch,
+                        TBranch *Y_branch,
+                        TBranch *trig_time_branch,
+                        TBranch *event_time_branch,
+                        TBranch *peak_sum_branch
+                        )  {
+    double sum_x = 0;
+    double count_x = 0;
+    double sum_y = 0;
+    //Binning x and y-axis
+    for (int i = 0; i < entries; i++) {
+        X_branch->GetEntry(tree->LoadTree(i));
+        Y_branch->GetEntry(tree->LoadTree(i));
+        trig_time_branch->GetEntry(tree->LoadTree(i));
+        event_time_branch->GetEntry(tree->LoadTree(i));
+        peak_sum_branch->GetEntry(tree->LoadTree(i));
+
+        // Bin the data to the resolution
+        for (int j = 0; j < X->size(); j++) {
+            // Define time window
+            if (trig_time->at(j) < trig_time_upper && trig_time->at(j) > trig_time_lower &&
+                event_time->at(j) < event_time_upper && event_time->at(j) > event_time_lower &&
+                peak_sum->at(j) < peak_sum_upper && peak_sum->at(j) > peak_sum_lower) {
+                sum_x += X->at(j);
+                count_x += 1.;
+
+                sum_y += Y->at(j);
+            }
+        }
+    }
+
+    //Locating center
+    x_center = sum_x / count_x; // average x
+    y_center = sum_y / count_x; // average y
+    center_error = x_y_variance/count_x+x_y_variance; // Variance in center + Variance in data points
+}
+
+void get_center_convolution(TTree * tree, int & entries,
+                        double & x_center, double & y_center, double & center_error, double & x_y_variance, 
+                        double & trig_time_upper, double & trig_time_lower,
+                        double & event_time_upper, double & event_time_lower,
+                        double & peak_sum_upper, double & peak_sum_lower,
+                        std::vector<Double_t> * X, std::vector<Double_t> * Y,
+                        std::vector<Double_t> *trig_time,
+                        std::vector<Double_t> *event_time,
+                        std::vector<Double_t> *peak_sum,
+                        TBranch *X_branch,
+                        TBranch *Y_branch,
+                        TBranch *trig_time_branch,
+                        TBranch *event_time_branch,
+                        TBranch *peak_sum_branch,
+                        Double_t & sq_min, Double_t & sq_max
+                        ) {
+    std::vector<int> x_axis = {0};
+    std::vector<int> y_axis = {0};
+    std::vector<Double_t> bins = {10};
+
+    // Create x_axis and y_axis
+    for (int i = 0; i < entries; i++) {
+        X_branch->GetEntry(tree->LoadTree(i));
+        Y_branch->GetEntry(tree->LoadTree(i));
+        trig_time_branch->GetEntry(tree->LoadTree(i));
+        event_time_branch->GetEntry(tree->LoadTree(i));
+        peak_sum_branch->GetEntry(tree->LoadTree(i));
+
+        // Bin the data to the resolution
+        for (int j = 0; j < X->size(); j++) {
+            // Define time window
+            if (trig_time->at(j) < trig_time_upper && trig_time->at(j) > trig_time_lower &&
+                event_time->at(j) < event_time_upper && event_time->at(j) > event_time_lower &&
+                peak_sum->at(j) < peak_sum_upper && peak_sum->at(j) > peak_sum_lower) {
+                // Bin the data
+                while (X->at(j) >= bins.back() || Y->at(j) >= bins.back()){
+                    bins.emplace_back(bins.back() + 0.2);
+                    x_axis.emplace_back(0);
+                    y_axis.emplace_back(0);
+                }
+                while (X->at(j) <= bins.at(0) || Y->at(j) <= bins.at(0)) {
+                    bins.insert(bins.begin(),bins.at(0) - 0.2);
+                    x_axis.insert(x_axis.begin(),0);
+                    y_axis.insert(y_axis.begin(),0);
+                }
+                if ((X->at(j) <= bins.back()) && (X->at(j) >= bins.at(0))) {
+                    auto lower = std::lower_bound(bins.begin(), bins.end(), X->at(j));
+                    x_axis.at(std::distance(bins.begin(), lower))++;
+                }
+                if ((Y->at(j) <= bins.back()) && (Y->at(j) >= bins.at(0))) {
+                    auto lower = std::lower_bound(bins.begin(), bins.end(), Y->at(j));
+                    y_axis.at(std::distance(bins.begin(), lower))++;
+                }
+            }
+        }
+    }
+    
     int sum;
     int x_max = 0;
     int y_max = 0;
 
     // Convolution of x_axis with x_axis inverted at point i
-    for (int i = 0; i < x_axis.size(); ++i) {
+    for (int i = 0; i < x_axis.size()*2 ; ++i) {
         sum = 0;
-        for (int j = 0; j < x_axis.size(); ++j) {
-            if (x_axis.size() > i-j && j < i) {
-                sum += x_axis.at(j) * x_axis.at(x_axis.size() - 1 - (i - j));
+        if (i % 2 == 0){
+            for (int j = 0; j <= i; ++j) {
+                
+                if (j < x_axis.size() && ((i-j) < x_axis.size())){
+                    sum += x_axis.at(j) * x_axis.at((i - j));
+                }
             }
-        }
-        if (sum > x_max){
-            x_max = sum;
-            x_center = i;
+            if (sum > x_max){
+                x_max = sum;
+                x_center = bins.at(int(i/2));
+            }
         }
     }
 
     // Convolution of y_axis with y_axis inverted at point i
-    for (int i = 0; i < y_axis.size(); ++i) {
+    for (int i = 0; i < y_axis.size()*2 ; ++i) {
         sum = 0;
-        for (int j = 0; j < y_axis.size(); ++j) {
-            if (y_axis.size() > i-j && j < i) {
-                sum += y_axis.at(j) * y_axis.at(y_axis.size() - 1 - (i - j));
+        if (i % 2 == 0){
+            for (int j = 0; j <= i; ++j) {
+                
+                if (j < y_axis.size() && ((i-j) < y_axis.size())){
+                    sum += y_axis.at(j) * y_axis.at((i - j));
+                }
+            }
+            if (sum > y_max){
+                y_max = sum;
+                y_center = bins.at(int(i/2));
             }
         }
-        if (sum > y_max){
-            y_max = sum;
-            y_center = i;
-        }
     }
+
+    std::cout << "x " << x_center << " y " << y_center << std::endl;
+
+    center_error = x_y_variance;
 }
 
 void set_profile(int resolution, int nr_angles, int ang, std::vector<double> & circ_data, std::vector<double> &profile){
@@ -741,6 +853,10 @@ int main(int argc, char *argv[]){
     bool time_subtraction = false;
     Double_t time_sub_lower = 0;
     Double_t time_sub_upper = 0;
+
+    // Centering mode
+    std::string center_mode = "convolution"; // average, convolution
+    bool center_mode_changed = false;
 
     // Settings change
     bool mode_changed = false;
@@ -1071,9 +1187,6 @@ int main(int argc, char *argv[]){
     /*--------          Finding center dependencies           --------*/
     int index;
 
-    double sum_x = 0;
-    double count_x = 0;
-    double sum_y = 0;
     double center_error = 0;
 
     double x_center;
@@ -1178,34 +1291,26 @@ int main(int argc, char *argv[]){
         std::cout << "Finding center and Circularization\n " << std::endl;
         /*--------            Finding center             --------*/
 
-        //Binning x and y-axis
-        for (int i = 0; i < entries; i++) {
-            X_branch->GetEntry(tree->LoadTree(i));
-            Y_branch->GetEntry(tree->LoadTree(i));
-            trig_time_branch->GetEntry(tree->LoadTree(i));
-            event_time_branch->GetEntry(tree->LoadTree(i));
-            peak_sum_branch->GetEntry(tree->LoadTree(i));
-
-            // Bin the data to the resolution
-            for (int j = 0; j < X->size(); j++) {
-                // Define time window
-                if (trig_time->at(j) < trig_time_upper && trig_time->at(j) > trig_time_lower &&
-                    event_time->at(j) < event_time_upper && event_time->at(j) > event_time_lower &&
-                    peak_sum->at(j) < peak_sum_upper && peak_sum->at(j) > peak_sum_lower) {
-
-                    sum_x += X->at(j);
-                    count_x += 1.;
-
-                    sum_y += Y->at(j);
-                }
-            }
+        // Edits x_cent, y_center and center_error
+        if (center_mode == "average") {
+        get_center_average(tree, entries,
+                            x_center, y_center, center_error, x_y_variance, 
+                            trig_time_upper, trig_time_lower,
+                            event_time_upper, event_time_lower,
+                            peak_sum_upper, peak_sum_lower,
+                            X, Y, trig_time, event_time, peak_sum,
+                            X_branch, Y_branch, trig_time_branch, event_time_branch, peak_sum_branch); 
         }
-
-        //Locating center
-        x_center = sum_x / count_x; // average x
-        y_center = sum_y / count_x; // average y
-        center_error = x_y_variance/count_x+x_y_variance; // Variance in center + Variance in data points
-
+        if (center_mode == "convolution") {
+        get_center_convolution(tree, entries,
+                            x_center, y_center, center_error, x_y_variance, 
+                            trig_time_upper, trig_time_lower,
+                            event_time_upper, event_time_lower,
+                            peak_sum_upper, peak_sum_lower,
+                            X, Y, trig_time, event_time, peak_sum,
+                            X_branch, Y_branch, trig_time_branch, event_time_branch, peak_sum_branch, sq_min, sq_max);
+        }
+        
         biggest_diff = std::abs(x_center - sq_max);
         if (std::abs(x_center - sq_min) > biggest_diff) {
             biggest_diff = std::abs(x_center - sq_min);
@@ -1216,7 +1321,7 @@ int main(int argc, char *argv[]){
         if (std::abs(y_center - sq_max) > biggest_diff) {
             biggest_diff = std::abs(y_center - sq_max);
         }
-
+        
         //Setting maximum radius
         rad_max = biggest_diff * pow(2., 1. / 2.);
 

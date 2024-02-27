@@ -232,7 +232,7 @@ int main(int argc, char *argv[]){
     event_now_tree->Branch("event_hist", & event_now_val, "event_hist/D");
     trig_now_tree->Branch("trig_hist", & trig_now_val, "trig_hist/D");
     peak_now_tree->Branch("peak_hist", & peak_now_val, "peak_hist/D");
-
+    
     for(int i = 0; i < entries; i++){
         trig_time_branch->GetEntry(tree->LoadTree(i));
         event_time_branch->GetEntry(tree->LoadTree(i));
@@ -269,16 +269,18 @@ int main(int argc, char *argv[]){
         }
         freq_branch->GetEntry(tree->LoadTree(i));
         if (freq > 0) {
-            while (freq >= freq_bin.back()) {
+            while ((freq >= freq_bin.back()) && ((freq - freq_bin.back()) < 500*bin_size.at(3))) {
                 freq_bin.emplace_back(freq_bin.back() + bin_size.at(3));
                 freq_hist.emplace_back(0);
             }
-            while (freq <= freq_bin.at(0)) {
+            while ((freq <= freq_bin.at(0)) && (freq_bin.at(0) - freq < 500*bin_size.at(3))) {
                 freq_bin.insert(freq_bin.begin(),freq_bin.at(0) - bin_size.at(3));
                 freq_hist.insert(freq_hist.begin(),0);
             }
-            auto lower_freq = std::lower_bound(freq_bin.begin(), freq_bin.end(), freq);
-            freq_hist.at(std::distance(freq_bin.begin(), lower_freq))++;
+            if ((freq <= freq_bin.back()) && (freq >= freq_bin.at(0))) {
+                auto lower_freq = std::lower_bound(freq_bin.begin(), freq_bin.end(), freq);
+                freq_hist.at(std::distance(freq_bin.begin(), lower_freq))++;
+            }
         }
     }
 
