@@ -85,10 +85,8 @@ void invert_matrix(int ncols, TMatrixD *inv_Hankel, std::vector<double> &vector,
         temp.GetMatrix2Array(hankel);
 
         for (int i = 0; i < ncols; ++i) {
-            for (int j = 0; j < ncols; ++j) {
-                if (std::abs(hankel[i * order + j]) < tol || std::abs(hankel[i * order + j]) > 1.e14) {
-                    throw temp.GetNcols()-1;
-                }
+            if (std::abs(hankel[i * order + i]) < tol || std::abs(hankel[i * order + i]) > 1.e14) {
+                throw temp.GetNcols()-1;
             }
         }
 
@@ -108,7 +106,9 @@ void invert_matrix(int ncols, TMatrixD *inv_Hankel, std::vector<double> &vector,
                     hankel_o, tol, det,
                     r, order);
         }
-        vector.at(r * order * order) = -1. / hankel_o;
+        else {
+            vector.at(r * order * order) = -1. / hankel_o;
+        }
     }
 }
 
@@ -3669,6 +3669,7 @@ int main(int argc, char *argv[]){
                     // Calculate the radius
                     hold_r = pow((x - VMI_res / 2.) * (x - VMI_res / 2.) + (y - VMI_res / 2.) * (y - VMI_res / 2.),
                                  1. / 2.) * vmi_relative_res;
+                    hold_cos = (x - VMI_res / 2.)/hold_r*vmi_relative_res;
 
                     // Find the bin where this radius lies in
                     auto lower_r = std::lower_bound(rad_bin_val.begin(), rad_bin_val.end(),
@@ -3679,7 +3680,7 @@ int main(int argc, char *argv[]){
                     }
                     if (hold_r!=0. && hold_r < rad_max) {
                         for (int n = 0; n < norder; ++n) {
-                            inv_vmi.at(y * VMI_res + x) += I_n.at(n * resolution + index) * pow((y - VMI_res / 2.) / hold_r, n);
+                            inv_vmi.at(y * VMI_res + x) += pow(rad_bin_val.at(index), 2.)*I_n.at(n * resolution + index) * pow(hold_cos, n); //legendre_coefficients.at(n*resolution + index) * std::legendre(n, hold_cos) ;
                         }
                     }
                 }
@@ -5540,7 +5541,7 @@ int main(int argc, char *argv[]){
                         }
                         if (hold_r != 0. && hold_r < rad_max){
                             for (int n = 0; n < norder; ++n) {
-                                inv_vmi.at(y * VMI_res + x) += I_n.at(n * resolution + index) * pow((y - VMI_res / 2.) / hold_r, n);
+                                inv_vmi.at(y * VMI_res + x) += pow(rad_bin_val.at(index), 2.)*I_n.at(n * resolution + index) * pow((x - VMI_res / 2.)/hold_r*vmi_relative_res, n);
                             }
                         }
                     }
@@ -7840,6 +7841,7 @@ int main(int argc, char *argv[]){
                     // Calculate the radius
                     hold_r = pow((x - VMI_res / 2.) * (x - VMI_res / 2.) + (y - VMI_res / 2.) * (y - VMI_res / 2.),
                                  1. / 2.) * vmi_relative_res;
+                    hold_cos = (x - VMI_res / 2.)/hold_r*vmi_relative_res;
 
                     // Find the bin where this radius lies in
                     auto lower_r = std::lower_bound(rad_bin_val.begin(), rad_bin_val.end(),
@@ -7850,7 +7852,7 @@ int main(int argc, char *argv[]){
                     }
                     if (hold_r!=0. && hold_r < rad_max) {
                         for (int n = 0; n < norder; ++n) {
-                            inv_vmi.at(y * VMI_res + x) += I_n.at(n * resolution + index) * pow((y - VMI_res / 2.) / hold_r, n);
+                            inv_vmi.at(y * VMI_res + x) += pow(rad_bin_val.at(index), 2.)*I_n.at(n * resolution + index) * pow(hold_cos, n); //
                         }
                     }
                 }

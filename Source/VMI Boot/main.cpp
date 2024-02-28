@@ -85,10 +85,8 @@ void invert_matrix(int ncols, TMatrixD *inv_Hankel, std::vector<double> &vector,
         temp.GetMatrix2Array(hankel);
 
         for (int i = 0; i < ncols; ++i) {
-            for (int j = 0; j < ncols; ++j) {
-                if (std::abs(hankel[i * order + j]) < tol || std::abs(hankel[i * order + j]) > 1.e14) {
-                    throw temp.GetNcols()-1;
-                }
+            if (std::abs(hankel[i * order + i]) < tol || std::abs(hankel[i * order + i]) > 1.e14) {
+                throw temp.GetNcols()-1;
             }
         }
 

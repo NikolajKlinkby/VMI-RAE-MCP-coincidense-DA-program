@@ -85,10 +85,8 @@ void invert_matrix(int ncols, TMatrixD *inv_Hankel, std::vector<double> &vector,
         temp.GetMatrix2Array(hankel);
 
         for (int i = 0; i < ncols; ++i) {
-            for (int j = 0; j < ncols; ++j) {
-                if (std::abs(hankel[i * order + j]) < tol || std::abs(hankel[i * order + j]) > 1.e14) {
-                    throw temp.GetNcols()-1;
-                }
+            if (std::abs(hankel[i * order + i]) < tol || std::abs(hankel[i * order + i]) > 1.e14) {
+                throw temp.GetNcols()-1;
             }
         }
 
@@ -3445,7 +3443,7 @@ int main(int argc, char *argv[]){
                 }
                 if (hold_r!=0. && hold_r < rad_max) {
                     for (int n = 0; n < norder; ++n) {
-                        inv_vmi.at(y * VMI_res + x) += I_n.at(n * resolution + index) * pow((y - VMI_res / 2.) / hold_r, n);
+                        inv_vmi.at(y * VMI_res + x) += pow(rad_bin_val.at(index), 2.) * I_n.at(n * resolution + index) * pow((x - VMI_res / 2.) / hold_r*vmi_relative_res, n);
                     }
                 }
             }
