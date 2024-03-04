@@ -1758,8 +1758,6 @@ class ControlWindow(tk.Tk):
         if self.cali_use_import_button_var.get() == 'True':
             self.intensity_ax.axhline(0, color='k', lw=0.5)
             rad_err = np.ones(len(self.intensity)) * self.sys_radial_err
-            print(self.radius_to_energy_func['converter'](np.array(self.radial_projection_values)))
-            print(self.radius_to_energy_func['error'](np.array(self.radial_projection_values), rad_err))
             self.intensity_ax.errorbar(self.radius_to_energy_func['converter'](np.array(self.radial_projection_values)),
                                        self.intensity, self.intensity_err,
                                        self.radius_to_energy_func['error'](np.array(self.radial_projection_values),

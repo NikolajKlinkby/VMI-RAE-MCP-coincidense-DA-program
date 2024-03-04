@@ -106,7 +106,9 @@ void invert_matrix(int ncols, TMatrixD *inv_Hankel, std::vector<double> &vector,
                           hankel_o, tol, det,
                           r, order);
         }
-        vector.at(r * order * order) = -1. / hankel_o;
+        else{
+            vector.at(r * order * order) = -1. / hankel_o;
+        }
     }
 }
 
@@ -637,8 +639,6 @@ void get_center_convolution(TTree * tree, int & entries,
             }
         }
     }
-
-    std::cout << "x " << x_center << " y " << y_center << std::endl;
 
     center_error = x_y_variance;
 }

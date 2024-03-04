@@ -640,8 +640,6 @@ void get_center_convolution(TTree * tree, int & entries,
         }
     }
 
-    std::cout << "x " << x_center << " y " << y_center << std::endl;
-
     center_error = x_y_variance;
 }
 
